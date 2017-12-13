@@ -202,7 +202,7 @@ CNV  &  Copy number variable region (multiallelic) \\
 BND  &  Breakend \\
 \end{tabular}
 \newline
-
+The list of symbolic alleles that represent structural variants is a closed set. Any symbolic alleles other than the first level types listed above are to considered to be non-structural symbolic alleles.
 
 \noindent Variant subtypes should be used for maximum specificity. Reserved subtypes include:
 \newline
@@ -221,9 +221,15 @@ INS:ME:SVA  &  Insertion of SVA element relative to the reference \\
 INS:ME:HERV  &  Insertion of HERV element relative to the reference \\
 \\
 DUP:TANDEM  &  Tandem duplication, original orientation \\
-DUP:TANDEM:INV:LEFT  &  Tandem duplication to left of original, inverted orientation \\
-DUP:TANDEM:INV:RIGHT  &  Tandem duplication to right of original, inverted orientation \\
+DUP:TANDEM:INV-LEFT  &  Tandem duplication to left of original, inverted orientation \\
+DUP:TANDEM:INV-RIGHT  &  Tandem duplication to right of original, inverted orientation \\
 \end{tabular}\newline
+
+Variants should be written using the most precise type that can be determined by the variant caller. For example, a LINE1 insertion would be specified as a DUP of the originating LINE1 element if the insertion site cannot not be determined, but INS:ME:LINE1 at the insertion site if the site can be identified.
+
+Note that the DUP type is not restricted to tandem duplications and that the DUP subtypes have different breakpoints than their parent type.
+
+Variant subtypes are an open set and is it valid for a variant caller to define a subtype not specified in the above list. Such subtypes are considered to be instances of the first reserved subtype these types with breakpoint and copy number semantics matching the reversed type. For example, INS:ME:PELEMENT is a valid caller-defined subtype, but INV:FOLDBACK is not since foldback inversions do not result in the same breakpoint and copy number changes as simple inversion.
 
 See examples below for further guidance.
 
@@ -552,7 +558,7 @@ SVTYPE is a primitive basic data type and must be specified for all structural v
 ##INFO=<ID=SVLEN,Number=.,Type=Integer,Description="Difference in length between REF and ALT alleles">
 \end{verbatim}
 \normalsize
-SVLEN indicates the relative size of the ALT allele compared to the REF allele. If ALT is longer than REF (e.g. insertions), SVLEN must be positive; if ALT is shorter than REF (e.g. deletions), SVLEN must be negative. One SVLEN value for each ALT allele.
+SVLEN indicates the relative size of the ALT allele compared to the REF allele. If ALT is longer than REF (e.g. insertions), SVLEN must be positive; if ALT is shorter than REF (e.g. deletions), SVLEN must be negative. Simple inversions will have SVLEN=0. The size of the inversion can be determined by the POS field and the END attribute. One SVLEN value for each ALT allele.
 
 \footnotesize
 \begin{verbatim}
