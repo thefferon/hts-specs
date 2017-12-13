@@ -1423,8 +1423,8 @@ In BCF2, the original VCF records are converted to binary and encoded as BGZF
 blocks.  Each record is conceptually two parts.  First is the site information
 (chr, pos, INFO field).  Immediately after the sites data is the genotype data
 for every sample in the BCF2 file.  The genotype data may be omitted entirely
-from the record if there is no genotype data in the VCF file.
-Compression of a BCF file is recommended but not required. 
+from the record if there is no genotype data in the VCF file. 
+Compression of a BCF file is recommended but not required.
 
 \subsubsection{Site encoding}
 
@@ -1663,7 +1663,7 @@ A \textbf{Genotype (GT) field} is encoded in a typed integer vector (can be 8,
 16, or even 32 bit if necessary) with the number of elements equal to the
 maximum ploidy among all samples at a site.  For one individual, each integer
 in the vector is organized as $(allele+1) << 1 \mid phased$ where allele is set
-to -1 if the allele in GT is a dot `.' (thus the higher bits are all 0). 
+to -1 if the allele in GT is a dot `.' (thus the higher bits are all 0).  
 The vector is padded with the end-of-vector values if the GT having fewer ploidy.
 We note specifically that except for the end-of-vector byte, no other negative
 values are allowed in the GT array.
