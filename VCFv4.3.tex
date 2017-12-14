@@ -16,6 +16,7 @@
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 \begin{document}
+\input{VCFv4.3.ver}
 \title{The Variant Call Format Specification \\ \vspace{0.5em} \large VCFv4.3 and BCFv2.2}
 \date{\headdate}
 \maketitle
@@ -256,7 +257,7 @@ It is recommended for VCF, and required for BCF, that the header includes tags
 describing the contigs referred to in the file. The structured \texttt{contig}
 field must include the ID attribute and typically includes also
 sequence length, MD5 checksum, URL tag to indicate where the sequence can be
-found, etc. For example:
+found, etc. For example: 
 \begin{verbatim}
 ##contig=<ID=ctg1,length=81195210,URL=ftp://somewhere.org/assembly.fa,...>
 \end{verbatim}
