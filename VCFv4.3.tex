@@ -33,7 +33,7 @@ last modified on the date shown above.
 \newpage
 
 \section{The VCF specification}
-VCF is a text file format (most likely stored in a compressed manner). 
+VCF is a text file format (most likely stored in a compressed manner).
 It contains meta-information lines (prefixed with "\#\#"), a header
 line (prefixed with "\#"), and data lines
 each containing information about a position in the genome and genotype
@@ -41,7 +41,7 @@ information on samples for each position
 (text fields separated by tabs). Zero length fields are not allowed, a dot (".") must
 be used instead.
 In order to ensure interoperability across platforms, VCF compliant implementations must support
-both LF (\texttt{\textbackslash n}) and CR+LF (\texttt{\textbackslash r\textbackslash n}) newline conventions.  
+both LF (\texttt{\textbackslash n}) and CR+LF (\texttt{\textbackslash r\textbackslash n}) newline conventions.
 
 \subsection{An example}
 \scriptsize
@@ -76,15 +76,15 @@ This example shows (in order): a good simple SNP, a possible SNP that has been f
 
 \subsection{Character encoding, non-printable characters and characters with special meaning}
 \label{character-encoding}
-The character encoding of VCF files is UTF-8.  UTF-8 is a multi-byte 
-character encoding that is a strict superset of 7-bit ASCII and has the 
-property that none of the bytes in any multi-byte characters are 7-bit ASCII 
-bytes. As a result, most software that processes VCF files does not have 
-to be aware of the possible presence of multi-byte UTF-8 characters. 
+The character encoding of VCF files is UTF-8.  UTF-8 is a multi-byte
+character encoding that is a strict superset of 7-bit ASCII and has the
+property that none of the bytes in any multi-byte characters are 7-bit ASCII
+bytes. As a result, most software that processes VCF files does not have
+to be aware of the possible presence of multi-byte UTF-8 characters.
 Note that non-printable characters U+0000-U+0008, U+000B-U+000C, U+000E-U+001F are disallowed.
 Line separators must be CR+LF or LF and they are allowed only as line separators at
 end of line.
-Characters with special meaning (such as field delimiters ';' in INFO 
+Characters with special meaning (such as field delimiters ';' in INFO
 or ':' FORMAT fields) must be represented using the capitalized percent encoding:
 
 \begingroup\footnotesize
@@ -96,15 +96,15 @@ or ':' FORMAT fields) must be represented using the capitalized percent encoding
 \%2C  &  ,  & (comma)                \\
 \%0D  & CR  &                        \\
 \%0A  & LF  &                        \\
-\%09  & TAB & 
+\%09  & TAB &
 \end{tabular}
 \endgroup
 
 
 \subsection{Data types}
-Data types supported by VCF are: Integer (32-bit, signed), Float (32-bit, formatted 
+Data types supported by VCF are: Integer (32-bit, signed), Float (32-bit, formatted
 to match the regular expression \texttt{\^{}[-+]?[0-9]*\textbackslash.?[0-9]+([eE][-+]?[0-9]+)?\$}, \texttt{NaN}, or \texttt{+/-Inf}), Flag, Character, and
-String. For the Integer type, the values from $-2^{31}$ to $-2^{31}+7$ cannot be stored in the binary version and therefore 
+String. For the Integer type, the values from $-2^{31}$ to $-2^{31}+7$ cannot be stored in the binary version and therefore
 are disallowed in both VCF and BCF, see \ref{BcfTypeEncoding}.
 
 \subsection{Meta-information lines}
@@ -152,7 +152,7 @@ INFO fields are described as follows (first four keys are required, source and v
 \end{verbatim}
 
 Possible Types for INFO fields are: Integer, Float, Flag, Character, and
-String. 
+String.
 The Number entry is an Integer that describes the number of values that
 can be included with the INFO field. For example, if the INFO field contains a
 single number, then this value must be $1$; if the INFO field describes a
@@ -191,7 +191,7 @@ Symbolic alternate alleles specified in the ALT field are described as follows:
 \end{verbatim}
 
 \noindent \textbf{Structural Variants} \newline
-In symbolic alternate alleles for structural variants, the ID field indicates the type of structural variant, and can consist of a colon-separated list of types and subtypes. ID values are case sensitive strings and must not contain whitespace or angle brackets. The first level type must be one of the following:\newline
+In symbolic alternate alleles for structural variants, the ID field indicates the type of structural variant, and can consist of a colon-separated list of types and subtypes. Every symbolic alternate allele that appears in a VCF file must be defined in the file pragmas. ID values are case sensitive strings and must not contain whitespace or angle brackets. The first level type must be one of the following:\newline
 
 \begin{tabular}{l l}
 DEL  &  Deletion relative to the reference \\
@@ -202,9 +202,9 @@ CNV  &  Copy number variable region (multiallelic) \\
 BND  &  Breakend \\
 \end{tabular}\newline
 
-\noindent The list of symbolic alleles that represent structural variants is a closed set. Any symbolic alleles other than the first level types listed above are considered to be non-structural symbolic alleles.\newline
+\noindent The list of first level symbolic alleles that represent structural variants is a closed set. Any symbolic alleles with a first level type other than one of those listed above are considered to be non-structural symbolic alleles.\newline
 
-\noindent Variant subtypes should be used for specificity. Reserved subtypes include:
+\noindent Variant subtypes should be used to add specificity to the maximum extent supported by the data. Reserved subtypes include:
 \newline
 
 \begin{tabular}{l l}
@@ -220,9 +220,9 @@ INS:ME:LINE1  &  Insertion of LINE1 element relative to the reference \\
 INS:ME:SVA  &  Insertion of SVA element relative to the reference \\
 INS:ME:HERV  &  Insertion of HERV element relative to the reference \\
 \\
-DUP:TANDEM  &  Tandem duplication, original orientation \\
-DUP:TANDEM:INV-LEFT  &  Tandem duplication to left of original, inverted orientation \\
-DUP:TANDEM:INV-RIGHT  &  Tandem duplication to right of original, inverted orientation \\
+DUP:TANDEM  &  Tandem duplication, in same orientation as original \\
+DUP:INV-BEFORE  &  Tandem duplication, inserted before original in inverted orientation \\
+DUP:INV-AFTER  &  Tandem duplication, inserted after original in inverted orientation \\
 \end{tabular}\newline \newline
 
 \noindent Variants should be written using the most precise type that can be determined by the variant caller. For example, if the insertion site of a new copy of a LINE1 element cannot be determined, it would be specified as a DUP of the originating LINE1 element. However if the new insertion site can be identified, the variant should be specified as INS:ME:LINE1 at the insertion site.\newline
@@ -236,7 +236,7 @@ DUP:TANDEM:INV-RIGHT  &  Tandem duplication to right of original, inverted orien
 \bigskip
 
 \noindent \textbf{IUPAC ambiguity codes} \newline
-Symbolic alleles can be used also to represent genuinely ambiguous data in VCF, for example: 
+Symbolic alleles can be used also to represent genuinely ambiguous data in VCF, for example:
 \begin{verbatim}
     ##ALT=<ID=R,Description="IUPAC code R = A/G">
     ##ALT=<ID=M,Description="IUPAC code M = A/C">
@@ -257,7 +257,7 @@ It is recommended for VCF, and required for BCF, that the header includes tags
 describing the contigs referred to in the file. The structured \texttt{contig}
 field must include the ID attribute and typically includes also
 sequence length, MD5 checksum, URL tag to indicate where the sequence can be
-found, etc. For example: 
+found, etc. For example:
 \begin{verbatim}
 ##contig=<ID=ctg1,length=81195210,URL=ftp://somewhere.org/assembly.fa,...>
 \end{verbatim}
@@ -342,7 +342,7 @@ There are 8 fixed fields per record.  Fixed fields are:
   the allele Strings. (String, Required).
 
   If the reference sequence contains IUPAC ambiguity codes not
-  allowed by this specification (such as R = A/G), the ambiguous reference base 
+  allowed by this specification (such as R = A/G), the ambiguous reference base
   must be reduced to a concrete base by using the one that is first alphabetically
   (thus R as a reference base is converted to A in VCF.)
 
@@ -485,7 +485,7 @@ As with the INFO field, there are several common, reserved keywords that are sta
                0   & 0 &   &   &   \\
                1   & 1 & 2 &   &   \\
                2   & 3 & 4 & 5 &   \\
-               3   & 6 & 7 & 8 & 9 
+               3   & 6 & 7 & 8 & 9
             \end{tabular}
             }
     \end{itemize}
@@ -1423,7 +1423,7 @@ In BCF2, the original VCF records are converted to binary and encoded as BGZF
 blocks.  Each record is conceptually two parts.  First is the site information
 (chr, pos, INFO field).  Immediately after the sites data is the genotype data
 for every sample in the BCF2 file.  The genotype data may be omitted entirely
-from the record if there is no genotype data in the VCF file. 
+from the record if there is no genotype data in the VCF file.
 Compression of a BCF file is recommended but not required.
 
 \subsubsection{Site encoding}
@@ -1523,7 +1523,7 @@ Note this is not used in BCF2, but its type is reserved in case this becomes nec
 
 \textbf{Integers} may be encoded as 8, 16, or 32 bit values, in little-endian
 order.  It is up to the encoder to determine the appropriate ranged value to
-use when writing the BCF2 file. 
+use when writing the BCF2 file.
 For integer types, the values 0x80, 0x8000, 0x80000000 are interpreted as
 missing values and 0x81, 0x8001, 0x80000001 as end-of-vector indicators
 (for 8, 16, and 32 bit values, respectively). Note that the end-of-vector byte
@@ -1607,7 +1607,7 @@ is already a string) we collapse the list of strings into a single
 comma-separated string, encode it as a regular BCF2 vector of characters, and
 on reading explode it back into the list of strings.  This works because
 strings in VCF cannot contain `{ \tt ,}' (it's a field separator) and so we can
-safely use `{\tt ,}' to separate the individual strings. 
+safely use `{\tt ,}' to separate the individual strings.
 
 % String vectors in BCF do not need to start with comma, as the number of
 % values is indicated already in the definition of the tag in the header.
@@ -1663,7 +1663,7 @@ A \textbf{Genotype (GT) field} is encoded in a typed integer vector (can be 8,
 16, or even 32 bit if necessary) with the number of elements equal to the
 maximum ploidy among all samples at a site.  For one individual, each integer
 in the vector is organized as $(allele+1) << 1 \mid phased$ where allele is set
-to -1 if the allele in GT is a dot `.' (thus the higher bits are all 0).  
+to -1 if the allele in GT is a dot `.' (thus the higher bits are all 0).
 The vector is padded with the end-of-vector values if the GT having fewer ploidy.
 We note specifically that except for the end-of-vector byte, no other negative
 values are allowed in the GT array.
@@ -1916,7 +1916,7 @@ section~4 as BAM files and other block-compressed files with BGZF.
 \item Introduced \#\#META header lines for defining phenotype metadata
 \item New reserved tag "CNP" analogous to "GP" was added. Both CNP and GP use 0 to 1 encoding, which is a change from previous phred-scaled GP.
 \item In order for VCF and BCF to have the same expressive power, we state explicitly that Integers and Floats are 32-bit numbers. Integers are signed.
-\item We state explicitly that zero length strings are not allowed, this includes the CHROM and ID column, INFO IDs, FILTER IDs and FORMAT IDs. Meta-information lines can be in any order, with the exception of \#\#fileformat which must come first. 
+\item We state explicitly that zero length strings are not allowed, this includes the CHROM and ID column, INFO IDs, FILTER IDs and FORMAT IDs. Meta-information lines can be in any order, with the exception of \#\#fileformat which must come first.
 \item All header  lines of the form \#\#key=$<$ID=xxx,...$>$ must have an ID value
 that is unique for a given value of "key". All header lines whose value starts
 with "$<$" must have an ID field. Therefore, also \#\#PEDIGREE newly requires a unique ID.
@@ -1934,7 +1934,7 @@ with "$<$" must have an ID field. Therefore, also \#\#PEDIGREE newly requires a 
 \begin{itemize}
 \item BCF header lines can include optional IDX field
 \item We introduce end-of-vector byte and reserve 8 values for future use
-\item Clarified that except the end-of-vector byte, no other negative values are allowed in the GT array 
+\item Clarified that except the end-of-vector byte, no other negative values are allowed in the GT array
 \item String vectors in BCF do not need to start with comma, as the number of values is indicated already in the definition of the tag in the header.
 \item The implicit filter PASS was described inconsistently throughout BCFv2.1: It is encoded as the first entry in the dictionary, not the last.
 \end{itemize}
