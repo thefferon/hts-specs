@@ -191,7 +191,7 @@ Symbolic alternate alleles specified in the ALT field are described as follows:
 \end{verbatim}
 
 \noindent \textbf{Structural Variants} \newline
-In symbolic alternate alleles for structural variants, the ID field indicates the type of structural variant, and can consist of a colon-separated list of types and subtypes. Every symbolic alternate allele that appears in a VCF file must be defined in the file pragmas. ID values are case sensitive strings and must not contain whitespace or angle brackets. The first level type must be one of the following:\newline
+In symbolic alternate alleles for structural variants, the ID field indicates the type of structural variant, and consists of a type and an optional colon-separated list of subtypes. ID values are case sensitive strings and must not contain whitespace or angle brackets. The first level type must be one of the following:\newline
 
 \begin{tabular}{l l}
 DEL  &  Deletion relative to the reference \\
@@ -199,7 +199,6 @@ INS  &  Insertion relative to the reference \\
 DUP  &  Region of elevated copy number relative to the reference \\
 INV  &  Inversion of reference sequence \\
 CNV  &  Copy number variable region (multiallelic) \\
-BND  &  Breakend \\
 \end{tabular}\newline
 
 \noindent The list of first level symbolic alleles that represent structural variants is a closed set. Any symbolic alleles with a first level type other than one of those listed above are considered to be non-structural symbolic alleles.\newline
